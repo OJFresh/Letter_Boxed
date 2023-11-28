@@ -2,9 +2,9 @@ def copy_list():
     mylist = []
     with open('words.txt', 'r') as file:
         for line in file:
-            word = line.replace('\n','')
+            word = line.replace('\n', '')
             mylist.append(word)
-    print("list Copied: " + str(len(mylist)) + ' words')
+    print("list Copied: " + str(len(mylist)) + ' words remaining')
     return mylist
 
 
@@ -13,7 +13,7 @@ def remove_small_words(input_list):
     for word in input_list:
         if len(word) >= 3:
             output.append(word)
-    print("Small words removed: " + str(len(output)) + ' words')
+    print("Small words removed: " + str(len(output)) + ' words remaining')
     return output
 
 
@@ -24,10 +24,10 @@ def remove_incorrect_letters(input_list, letters):
         for letter in word:
             if letter not in letters:
                 output.remove(word)
-                print("word removed: " + word)
                 break
-    print("bad letters removed: " + str(len(output)) + ' words')
+    print("bad letters removed: " + str(len(output)) + ' words remaining')
     return output
+
 
 def remove_duplicates(input_list):
     output = []
@@ -40,7 +40,7 @@ def remove_duplicates(input_list):
                     break
             except IndexError:
                 pass
-    print("duplicate letters removed: " + str(len(output)) + ' words')
+    print("duplicate letters removed: " + str(len(output)) + ' words remaining')
     return output
 
 
@@ -50,15 +50,16 @@ def remove_same_side_letters(input_list, letters):
         output.append(word)
         for num in range(len(word)):
             try:
-                initial_index = letters.index(word[num])%4
-                second_index = letters.index(word[num+1])%4
+                initial_index = letters.index(word[num]) % 4
+                second_index = letters.index(word[num+1]) % 4
                 if initial_index == second_index:
                     output.remove(word)
                     break
             except IndexError:
                 pass
-    print("duplicate letters removed: " + str(len(output)) + ' words')
+    print("same side letters removed: " + str(len(output)) + ' words')
     return output
+
 
 def input_letters():
     first_line = input("input the first line: ")
@@ -74,13 +75,20 @@ def input_letters():
     return output
 
 
+def write_new_list(input_list):
+    with open("modded_words.txt", 'w') as file:
+        for word in input_list:
+            file.write(word + '\n')
+
+
 def execute():
     accepted_letters = input_letters().lower()
     initial_list = copy_list()
     long_word_list = remove_small_words(initial_list)
     correct_letter_list = remove_incorrect_letters(long_word_list, accepted_letters)
     non_duplicate_words = remove_duplicates(correct_letter_list)
-    print(non_duplicate_words)
+    non_same_side_words = remove_same_side_letters(non_duplicate_words, accepted_letters)
+    write_new_list(non_same_side_words)
 
 
 execute()
