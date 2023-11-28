@@ -29,6 +29,3 @@ def execute():
     for x in word_lists:
         print(x)
     print(str(len(word_lists)) + " options generated!")
-
-
-execute()

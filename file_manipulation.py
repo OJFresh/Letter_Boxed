@@ -1,3 +1,5 @@
+import solution_generator
+
 def copy_list():
     mylist = []
     with open('words.txt', 'r') as file:
@@ -89,6 +91,6 @@ def execute():
     non_duplicate_words = remove_duplicates(correct_letter_list)
     non_same_side_words = remove_same_side_letters(non_duplicate_words, accepted_letters)
     write_new_list(non_same_side_words)
-
+    solution_generator.execute()
 
 execute()
